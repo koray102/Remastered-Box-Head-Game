@@ -74,7 +74,6 @@ public class Player_Movement : MonoBehaviour
             }else
             {
                 playerAnimator.SetBool("Shoot_b", false);
-                playerAnimator.SetBool("Reload_b", false);
             }
         }else
         {
