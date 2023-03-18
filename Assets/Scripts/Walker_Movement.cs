@@ -48,42 +48,34 @@ public class Walker_Movement : MonoBehaviour
             {
                 if (distanceZ > upperDistanceBorder) // sağ + üst
                 {
-                    walkerRb.velocity = new Vector3(speed, 0, speed);
-                    transform.rotation = Quaternion.Euler(transform.rotation.x, 45, transform.rotation.z);
+                    VelocityAndRotation(speed, speed, 45);
                 }else if (distanceZ < lowerDistanceBorder) // sağ + alt
                 {
-                    walkerRb.velocity = new Vector3(speed, 0, -speed);
-                    transform.rotation = Quaternion.Euler(transform.rotation.x, 135, transform.rotation.z);
+                    VelocityAndRotation(speed, -speed, 135);
                 }else // sağ
                 {
-                    walkerRb.velocity = new Vector3(speed, 0, 0);
-                    transform.rotation = Quaternion.Euler(transform.rotation.x, 90, transform.rotation.z);
+                    VelocityAndRotation(speed, 0, 90);
                 }
             }else if (distanceX < lowerDistanceBorder)
             {
                 if (distanceZ > upperDistanceBorder) // sol + üst
                 {
-                    walkerRb.velocity = new Vector3(-speed, 0, speed);
-                    transform.rotation = Quaternion.Euler(transform.rotation.x, 315, transform.rotation.z);
+                    VelocityAndRotation(-speed, speed, 315);
                 }else if (distanceZ < lowerDistanceBorder) // sol + alt
                 {
-                    walkerRb.velocity = new Vector3(-speed, 0, -speed);
-                    transform.rotation = Quaternion.Euler(transform.rotation.x, 225, transform.rotation.z);
+                    VelocityAndRotation(-speed, -speed, 225);
                 }else // sol
                 {
-                    walkerRb.velocity = new Vector3(-speed, 0, 0);
-                    transform.rotation = Quaternion.Euler(transform.rotation.x, 270, transform.rotation.z);
+                    VelocityAndRotation(-speed, 0, 270);
                 }
             }else
             {
                 if (distanceZ > upperDistanceBorder) // üst
                 {
-                    walkerRb.velocity = new Vector3(0, 0, speed);
-                    transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
+                    VelocityAndRotation(0, speed, 0);
                 }else if (distanceZ < lowerDistanceBorder) // alt
                 {
-                    walkerRb.velocity = new Vector3(0, 0, -speed);
-                    transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
+                    VelocityAndRotation(0, -speed, 180);
                 }
             }
         
@@ -107,6 +99,12 @@ public class Walker_Movement : MonoBehaviour
             }
         }
     }
+
+    void VelocityAndRotation(float speedX, float speedZ, int rotationY)
+    {
+        walkerRb.velocity = new Vector3(speedX, 0, speedZ);
+        transform.rotation = Quaternion.Euler(transform.rotation.x, rotationY, transform.rotation.z);
+    }
     
     private void OnTriggerEnter(Collider other)
     {
@@ -122,19 +120,18 @@ public class Walker_Movement : MonoBehaviour
             if (Mathf.Abs(bulletWalkerDistanceX) > Mathf.Abs(bulletWalkerDistanceZ))
             {
                 Vector3 vector3X = new (bulletWalkerDistanceX, 0.0f, 0.0f);
-                walkerRb.AddForce(vector3X.normalized * 50, ForceMode.Impulse);
+                walkerRb.AddForce(vector3X.normalized * 30, ForceMode.Impulse);
             }else
             {
                 Vector3 vector3Z = new (0.0f, 0.0f, bulletWalkerDistanceZ);
-                walkerRb.AddForce(vector3Z.normalized * 50, ForceMode.Impulse);
-            
+                walkerRb.AddForce(vector3Z.normalized * 30, ForceMode.Impulse);
             }
             
             Destroy(other.gameObject);
         }
     }
 
-    /*private void TrackAndWalk() (not able to use)
+    /*private void TrackAndWalk() (didn't work but can be improved)
     {
         private float angleBetween;
         private float rotationForY;

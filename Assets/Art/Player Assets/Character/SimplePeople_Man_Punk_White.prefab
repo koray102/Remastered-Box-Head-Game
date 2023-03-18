@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 492680791}
   - component: {fileID: 492680792}
   - component: {fileID: 2042360244}
-  - component: {fileID: 2042360245}
   - component: {fileID: 2042360250}
   m_Layer: 0
   m_Name: SimplePeople_Man_Punk_White
@@ -102,20 +101,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!136 &2042360245
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100000}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.5269279
-  m_Height: 2.958278
-  m_Direction: 1
-  m_Center: {x: 0.009001562, y: 1.4793139, z: 0}
 --- !u!65 &2042360250
 BoxCollider:
   m_ObjectHideFlags: 0

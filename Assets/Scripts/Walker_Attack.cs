@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class Walker_Attack : MonoBehaviour
 {
-    public float attackDelay = 1.0f;
-    public float attackInterval = 2.0f;
-    private Player_Movement playerMovementScript;
     public bool isNearPlayer = false;
     public float timePassed = 0f;
+    public float attackFrequency = 2f;
     private Animator walkerAnimation;
-    private Vector3 playersPlace;
+    private Player_Movement playerMovementScript;
 
     void Start()
     {
@@ -50,4 +48,18 @@ public class Walker_Attack : MonoBehaviour
             timePassed = 0;
         }
     }
+
+    /*IEnumerator Attack() (didn't work but can be improved)
+    {
+        while (isNearPlayer == true)
+        {
+            yield return new WaitForSeconds(attackFrequency);
+            if (isNearPlayer == true)
+            {
+                walkerAnimation.SetTrigger("Attack");
+                playerMovementScript.playerHealth -= 25;
+                Debug.Log(playerMovementScript.playerHealth);
+            }
+        }
+    }*/
 }

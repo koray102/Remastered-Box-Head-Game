@@ -31,7 +31,7 @@ public class Crossbow_Movement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.UpArrow))
         {
-            if (isCrossbowAimStraight == true)
+            if (isCrossbowAimStraight)
             {
                 transform.Rotate(Vector3.forward * -10);
                 isCrossbowAimStraight = false;
@@ -46,11 +46,10 @@ public class Crossbow_Movement : MonoBehaviour
         {
             transform.Rotate(Vector3.forward * 13);
             isCrossbowAimShoot = true;
-        }else if (isCrossbowAimShoot == true)
+        }else if (isCrossbowAimShoot)
         {
             if (crossbowCounter < 0.3f)
             {
-                //Debug.Log("if");
                 crossbowCounter += Time.deltaTime;
             }else if (crossbowCounter > 0.3f)
             {
