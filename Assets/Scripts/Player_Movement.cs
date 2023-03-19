@@ -16,55 +16,29 @@ public class Player_Movement : MonoBehaviour
 
     void Update()
     {
-        // transform = konum, rotasyon, boyut değerlerini değiştirmeye yarayan fonksiyon.
-        // translate = konum değerini tutar.
+        // transform = a function which enable us to change the values such as position, rotation, scale.
+        // translate = keeps position's value.
         if (playerHealth > 0)
         {
-            // hareket
-            if (Input.GetKey(KeyCode.LeftArrow))
+            // movement
+            if (Input.GetKey(KeyCode.RightArrow))
             {
-                playerAnimator.SetFloat("Speed_f", 1);
-                if(Input.GetKey(KeyCode.DownArrow)) //sol + alt
-                {
-                    transform.rotation = Quaternion.Euler(0, 225, 0);
-                }else if (Input.GetKey(KeyCode.UpArrow)) //sol + üst
-                {
-                    transform.rotation = Quaternion.Euler(0, 315, 0);
-                }else //sol
-                {
-                    transform.rotation = Quaternion.Euler(0, 270, 0);
-                }
-                transform.Translate(Vector3.forward * Time.deltaTime * speed);
-            }else if (Input.GetKey(KeyCode.RightArrow))
+                RotateForRightAndLeft(45, 135, 90);
+            }else if (Input.GetKey(KeyCode.LeftArrow))
             {
-                playerAnimator.SetFloat("Speed_f", 1);
-                if(Input.GetKey(KeyCode.DownArrow)) //sağ + alt
-                {
-                    transform.rotation = Quaternion.Euler(0, 135, 0);
-                }else if (Input.GetKey(KeyCode.UpArrow)) //sağ + üst
-                {
-                    transform.rotation = Quaternion.Euler(0, 45, 0);
-                }else //sağ
-                {
-                    transform.rotation = Quaternion.Euler(0, 90, 0);
-                }
-                transform.Translate(Vector3.forward * Time.deltaTime * speed);
-            }else if (Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
+                RotateForRightAndLeft(315, 225, 270);
+            }else if (Input.GetKey(KeyCode.UpArrow))
             {
-                playerAnimator.SetFloat("Speed_f", 1);
-                transform.rotation = Quaternion.Euler(0, 180, 0);
-                transform.Translate(Vector3.forward * Time.deltaTime * speed);
-            }else if (Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
+                RotateForUpAndDown(0);
+            }else if (Input.GetKey(KeyCode.DownArrow))
             {
-                playerAnimator.SetFloat("Speed_f", 1);
-                transform.rotation = Quaternion.Euler(0, 0, 0);
-                transform.Translate(Vector3.forward * Time.deltaTime * speed);
+                RotateForUpAndDown(180);
             }else
             {
                 playerAnimator.SetFloat("Speed_f", 0);
             }
             
-            //mermi ateşleme
+            // firing bullet
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 playerAnimator.SetInteger("WeaponType_int", 4);
@@ -81,5 +55,30 @@ public class Player_Movement : MonoBehaviour
             playerAnimator.SetInteger("DeathType_int", 1);
             playerAnimator.SetInteger("WeaponType_int", 100);
         }
-    }   
+    }
+
+    void RotateForRightAndLeft(int YRotateU, int YRotateD, int YRotate)
+    {
+        if(Input.GetKey(KeyCode.UpArrow)) //... + up
+        {
+            transform.rotation = Quaternion.Euler(0, YRotateU, 0);
+        }else if (Input.GetKey(KeyCode.DownArrow)) //... + down
+        {
+            transform.rotation = Quaternion.Euler(0, YRotateD, 0);
+        }else 
+        {
+            transform.rotation = Quaternion.Euler(0, YRotate, 0);
+        }
+        
+        playerAnimator.SetFloat("Speed_f", 1);
+        transform.Translate(Vector3.forward * Time.deltaTime * speed);      
+    }
+
+    void RotateForUpAndDown(int YRotate)
+    {
+        transform.rotation = Quaternion.Euler(0, YRotate, 0);
+
+        playerAnimator.SetFloat("Speed_f", 1);
+        transform.Translate(Vector3.forward * Time.deltaTime * speed);
+    }
 }
