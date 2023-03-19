@@ -12,12 +12,10 @@ public class Walker_Movement : MonoBehaviour
     public Collider walkerCollider;
     private Rigidbody walkerRb;
     private Walker_Attack walkerAttackScript;
-    private float timePassed = 2;
     private Animator walkerAnimation;
     private Bullet_Movement bullet;
     private float walkerHealt = 100.0f;
     private GameObject player;
-    private float deadTimeCounter = 0f;
 
 
     void Start()
@@ -26,6 +24,8 @@ public class Walker_Movement : MonoBehaviour
         walkerAttackScript = GetComponent<Walker_Attack>();
         walkerRb = GetComponent<Rigidbody>();
         walkerAnimation = GetComponent<Animator>();
+
+        StartCoroutine("CalculateDistance");
     }
 
     void Update()
@@ -34,46 +34,36 @@ public class Walker_Movement : MonoBehaviour
         {
             walkerAnimation.SetFloat("MoveSpeed", 2);
             
-            if (timePassed < 0.5f)
-            {
-                timePassed += Time.deltaTime;
-            }else
-            {
-                distanceX = player.transform.position.x - transform.position.x;
-                distanceZ = player.transform.position.z - transform.position.z;
-                timePassed = 0;
-            }
-            
             if (distanceX > upperDistanceBorder)
             {
-                if (distanceZ > upperDistanceBorder) // sağ + üst
+                if (distanceZ > upperDistanceBorder) // right + up
                 {
                     VelocityAndRotation(speed, speed, 45);
-                }else if (distanceZ < lowerDistanceBorder) // sağ + alt
+                }else if (distanceZ < lowerDistanceBorder) // right + down
                 {
                     VelocityAndRotation(speed, -speed, 135);
-                }else // sağ
+                }else // right
                 {
                     VelocityAndRotation(speed, 0, 90);
                 }
             }else if (distanceX < lowerDistanceBorder)
             {
-                if (distanceZ > upperDistanceBorder) // sol + üst
+                if (distanceZ > upperDistanceBorder) // left + up
                 {
                     VelocityAndRotation(-speed, speed, 315);
-                }else if (distanceZ < lowerDistanceBorder) // sol + alt
+                }else if (distanceZ < lowerDistanceBorder) // left + down
                 {
                     VelocityAndRotation(-speed, -speed, 225);
-                }else // sol
+                }else // left
                 {
                     VelocityAndRotation(-speed, 0, 270);
                 }
             }else
             {
-                if (distanceZ > upperDistanceBorder) // üst
+                if (distanceZ > upperDistanceBorder) // up
                 {
                     VelocityAndRotation(0, speed, 0);
-                }else if (distanceZ < lowerDistanceBorder) // alt
+                }else if (distanceZ < lowerDistanceBorder) // down
                 {
                     VelocityAndRotation(0, -speed, 180);
                 }
@@ -91,12 +81,7 @@ public class Walker_Movement : MonoBehaviour
             walkerRb.velocity = new Vector3(0, 0, 0);
             walkerCollider.enabled = false;
             
-            if (deadTimeCounter < 3)
-            {
-                deadTimeCounter += Time.deltaTime;
-            }else{
-                Destroy(gameObject);
-            }
+            StartCoroutine("WaitWalkerDeath");
         }
     }
 
@@ -128,6 +113,22 @@ public class Walker_Movement : MonoBehaviour
             }
             
             Destroy(other.gameObject);
+        }
+    }
+
+    IEnumerator WaitWalkerDeath()
+    {
+        yield return new WaitForSeconds(3);
+        Destroy(gameObject);
+    }
+
+    IEnumerator CalculateDistance()
+    {
+        while (walkerHealt > 0)
+        {
+            distanceX = player.transform.position.x - transform.position.x;
+            distanceZ = player.transform.position.z - transform.position.z;
+            yield return new WaitForSeconds(1);
         }
     }
 
