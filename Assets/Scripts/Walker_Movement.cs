@@ -32,7 +32,7 @@ public class Walker_Movement : MonoBehaviour
     {
         if (walkerAttackScript.isNearPlayer == false && walkerHealt > 0)
         {
-            walkerAnimation.SetFloat("MoveSpeed", 2);
+            walkerAnimation.SetInteger("WalkSpeed_int", 1);
             
             if (distanceX > upperDistanceBorder)
             {
@@ -72,12 +72,12 @@ public class Walker_Movement : MonoBehaviour
         }else if (walkerHealt > 0)
         {
             walkerRb.velocity = new Vector3(0, 0, 0);
-            walkerAnimation.SetFloat("MoveSpeed", 0);
+            walkerAnimation.SetInteger("WalkSpeed_int", -1);
         }
 
         if (walkerHealt < 0)
         {
-            walkerAnimation.SetTrigger("Dead");
+            walkerAnimation.SetTrigger("Death_trigger");
             walkerRb.velocity = new Vector3(0, 0, 0);
             walkerCollider.enabled = false;
             

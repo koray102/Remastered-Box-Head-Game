@@ -32,7 +32,7 @@ public class Walker_Attack : MonoBehaviour
                 timePassed += Time.deltaTime;
             }else
             {               
-                walkerAnimation.SetTrigger("Attack");
+                walkerAnimation.SetTrigger("Attack_trigger");
                 playerMovementScript.playerHealth -= 25;
                 Debug.Log(playerMovementScript.playerHealth);
                 timePassed = 0;
