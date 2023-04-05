@@ -87,8 +87,12 @@ public class Walker_Movement : MonoBehaviour
 
     void VelocityAndRotation(float speedX, float speedZ, int rotationY)
     {
+        Quaternion currentRotation = transform.rotation;
+        Vector3 targetRotationEuler = new (transform.rotation.x, rotationY, transform.rotation.z);
+        Quaternion targetRotation = Quaternion.Euler(targetRotationEuler);
+
         walkerRb.velocity = new Vector3(speedX, 0, speedZ);
-        transform.rotation = Quaternion.Euler(transform.rotation.x, rotationY, transform.rotation.z);
+        transform.rotation = Quaternion.Lerp(currentRotation, targetRotation, Time.deltaTime * 10f);
     }
     
     private void OnTriggerEnter(Collider other)
